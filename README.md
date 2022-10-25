@@ -1,160 +1,114 @@
-# DTS React User Guide
+# React AirfieldHub (react-airfieldhub)
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with DTS. Let’s get you oriented with what’s here and how to use it.
+This library is a wrapper for React 16.8+ websites and apps to integrate AirfieldHub seamlessly into your existing system.
 
-> This DTS setup is meant for developing React component libraries (not apps!) that can be published to NPM. If you’re looking to build a React-based app, you should use `create-react-app`, `razzle`, `nextjs`, `gatsby`, or `react-static`.
+AirfieldHub aims to take all the pain out of PPR (Prior Permission Required) for both pilots and airfield, in addition to a myriad of other features for airfields.
 
-> If you’re new to TypeScript and React, checkout [this handy cheatsheet](https://github.com/sw-yx/react-typescript-cheatsheet/)
+This version of the library creates two new tags, allowing you to display your AirfieldHub PPR and Bookout forms on your own website without having to code anything yourself.
 
-## Commands
+Our philosophy at AirfieldHub is that everything should be simple and straight forward, making all our lives easier, hence this simple library ensuring that you can be up and running with AirfieldHub with the least amount of pain possible.
 
-DTS scaffolds your new library inside `/src`, and also sets up a [Vite-based](https://vitejs.dev) playground for it inside `/example`.
 
-The recommended workflow is to run DTS in one terminal:
+## Installation
 
-```bash
-npm start # or yarn start
+### Using NPM
+`npm install react-airfieldhub --save`
+
+### Using YARN
+`yarn add react-airfieldhub`
+
+
+## Initial Setup
+
+First: your `App.js` file; Or any other component file, you will then need to import AirfieldHub as follows.
+
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
+import { AirfieldHubBookout, AirfieldHubPPR } from  'react-airfieldhub';
 
-Then run the example inside another:
 
-```bash
-cd example
-npm i # or yarn to install dependencies
-npm start # or yarn start
 ```
 
-The default example imports and live reloads whatever is in `/dist`, so if you are seeing an out of date component, make sure DTS is running in watch mode like we recommend above. 
+Second: your `App.css` file (or relevant css file); You will need to include a minimum width for our wrapper: You do this by copy & pasting the code below:
 
-To do a one-off build, use `npm run build` or `yarn build`.
+```
+  .airfieldhub_wrapper{
+    min-width: 250px;
+  }
 
-To run tests, use `npm test` or `yarn test`.
-
-## Configuration
-
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
-
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`.
-
-### Bundle analysis
-
-Calculates the real cost of your library using [size-limit](https://github.com/ai/size-limit) with `npm run size` and visulize it with `npm run analyze`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/example
-  index.html
-  index.tsx       # test your component here in a demo app
-  package.json
-  tsconfig.json
-/src
-  index.tsx       # EDIT THIS
-/test
-  index.test.tsx  # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
 ```
 
-#### React Testing Library
 
-We do not set up `react-testing-library` for you yet, we welcome contributions and documentation on this.
 
-### Rollup
+## Usage
 
-DTS uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
+Once the AirfieldHub library has been installed following the instructions above, you will then be able to include the forms by going directly in the template of the page you wish for it to appear:
 
-### TypeScript
 
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
+To show the AirfieldHub PPR form:
 
-## Continuous Integration
+```
+        
+  <AirfieldHubPPR airfieldhub_key="key_from_account" />
 
-### GitHub Actions
 
-Two actions are added by default:
-
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
-
-## Optimizations
-
-Please see the main `dts` [optimizations docs](https://github.com/weiran-zsd/dts-cli#optimizations). In particular, know that you can take advantage of development-only optimizations:
-
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
-
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
-}
 ```
 
-You can also choose to install and use [invariant](https://github.com/weiran-zsd/dts-cli#invariant) and [warning](https://github.com/weiran-zsd/dts-cli#warning) functions.
+To show the AirfieldHub BOOKOUT form:
 
-## Module Formats
+```
+        
+  <AirfieldHubBookout airfieldhub_key="key_from_account" />
 
-CJS, ESModules, and UMD module formats are supported.
 
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
-
-## Deploying the Example Playground
-
-The Playground is just a simple [Vite](https://vitejs.dev) app, you can deploy it anywhere you would normally deploy that. Here are some guidelines for **manually** deploying with the Netlify CLI (`npm i -g netlify-cli`):
-
-```bash
-cd example # if not already in the example folder
-npm run build # builds to dist
-netlify deploy # deploy the dist folder
 ```
 
-Alternatively, if you already have a git repo connected, you can set up continuous deployment with Netlify:
+NOTE: your `airfieldhub_key` comes from your AirfieldHub account, you can find this by clicking `Dashboard` on the top right of our user interface, then `Widget` on the menu on the left hand side of the screen.
 
-```bash
-netlify init
-# build command: yarn build && cd example && yarn && yarn build
-# directory to deploy: example/dist
-# pick yes for netlify.toml
-```
+We would recommend keeping this key either as a global variable or as an environment variable.
 
-## Named Exports
+This will span the whole width of the parent item (css class name: airfieldhub_wrapper), and will automatically extend the height of the element to ensure no scrolling is necessary.
 
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
 
-## Including Styles
+## Further help
 
-There are many ways to ship styles, including with CSS-in-JS. DTS has no opinion on this, configure how you like.
+To get more help on this library, please feel free to contact us directly through AirfieldHub (https://airfieldhub.com/contact) and we will respond as quickly as we can. 
 
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
+Should you find any particular issues, please feel free to open a new issue! 
 
-## Publishing to NPM
+We will endeavour to update this library periodically, as and when it is required by our clients, and when new features become available.
 
-We recommend using [np](https://github.com/sindresorhus/np).
 
-## Usage with Lerna
 
-When creating a new package with DTS within a project set up with Lerna, you might encounter a `Cannot resolve dependency` error when trying to run the `example` project. To fix that you will need to make changes to the `package.json` file _inside the `example` directory_.
 
-The problem is that due to the nature of how dependencies are installed in Lerna projects, the aliases in the example project's `package.json` might not point to the right place, as those dependencies might have been installed in the root of your Lerna project.
+---
+Copyright (c) 2022, AirfieldHub LTD
+All rights reserved.
 
-Change the `alias` to point to where those packages are actually installed. This depends on the directory structure of your Lerna project, so the actual path might be different from the diff below.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. All advertising materials mentioning features or use of this software
+   must display the following acknowledgement:
+   This product includes software developed by AirfieldHub LTD.
+4. Neither the name of the AirfieldHub LTD nor the
+   names of its contributors may be used to endorse or promote products
+   derived from this software without specific prior written permission.
 
-```diff
-   "alias": {
--    "react": "../node_modules/react",
--    "react-dom": "../node_modules/react-dom"
-+    "react": "../../../node_modules/react",
-+    "react-dom": "../../../node_modules/react-dom"
-   },
-```
+<font size="1">
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER ''AS IS'' AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
+USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</font>
 
-An alternative to fixing this problem would be to remove aliases altogether and define the dependencies referenced as aliases as dev dependencies instead. [However, that might cause other problems.](https://github.com/formium/tsdx/issues/64)
